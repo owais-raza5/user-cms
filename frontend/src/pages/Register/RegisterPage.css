@@ -1,0 +1,38 @@
+.register-right {
+  width: 560px !important;
+}
+
+.register-card {
+  max-width: 480px !important;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .ant-form-item {
+  min-width: 0;
+}
+
+.register-footer-text {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+.register-link {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .register-right { width: 100% !important; }
+  .form-row { flex-direction: column; gap: 0; }
+}

@@ -1,0 +1,132 @@
+
+.page-hero {
+  margin-bottom: 4px;
+}
+
+.stat-card {
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.stat-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.dash-card {
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+  min-height: 200px;
+}
+
+.activity-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+}
+
+.role-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.role-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 120px;
+  flex-shrink: 0;
+}
+.role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.role-name {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+.role-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.role-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+.role-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  width: 40px;
+  text-align: right;
+}
+
+.account-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.accountdetails-wrap {
+  display: flex;
+  flex-direction: column;
+}
+.avatardetails-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.account-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.account-email {
+  color: #3e3e3e;
+  margin-top: 0;
+}
+.account-role-badge {
+  padding: 4px 6px;
+  border-radius: 10px;
+  text-align: center;
+}
