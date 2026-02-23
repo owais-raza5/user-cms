@@ -28,7 +28,7 @@ export async function listUsers(
       ];
     }
 
-    if (role && Object.values(ROLES).includes(role)) {
+    if (role && (Object.values(ROLES) as string[]).includes(role)) {
       where.role = role;
     }
 
@@ -75,15 +75,13 @@ export async function createUser(
     const requestedRole: UserRole = role || "USER";
 
     if (
-      (requestedRole === "ADMIN" || requestedRole === "SUPER_ADMIN") &&
-      req.user?.role !== "SUPER_ADMIN"
+      (requestedRole === "ADMIN" || requestedRole === ROLES.SUPER_ADMIN) &&
+      req.user?.role !== ROLES.SUPER_ADMIN
     ) {
-      res
-        .status(403)
-        .json({
-          success: false,
-          message: "Only SUPER_ADMIN can create admin accounts",
-        });
+      res.status(403).json({
+        success: false,
+        message: "Only SUPER ADMIN can create admin accounts",
+      });
       return;
     }
 
@@ -142,13 +140,18 @@ export async function updateUser(
     }
 
     const { username, role, password } = req.body;
+    console.log("req body ==>", req.body);
 
-    if (role !== undefined && req.user?.role !== "SUPER_ADMIN") {
-      res
-        .status(403)
-        .json({ success: false, message: "Only SUPER_ADMIN can change roles" });
-      return;
-    }
+      const isRoleChange = role !== undefined && role !== user.role;
+      if (isRoleChange && req.user?.role !== ROLES.SUPER_ADMIN) {
+        res
+          .status(403)
+          .json({
+            success: false,
+            message: "Only SUPER ADMIN can change roles",
+          });
+        return;
+      }
 
     const updateData: Partial<UserAttributes> = {};
     if (username !== undefined) updateData.username = username;

@@ -63,7 +63,7 @@ export default function UsersPage() {
   const openEdit = (user) => setModal({ open: true, mode: "edit", user });
   const closeModal = () => setModal({ open: false, mode: "add", user: null });
 
-  const columns = [
+  const baseColumns = [
     {
       title: "Role",
       dataIndex: "role",
@@ -104,46 +104,50 @@ export default function UsersPage() {
             })
           : "—",
     },
-    {
-      title: "Actions",
-      key: "actions",
-      width: 90,
-      render: (_, record) => (
-        <Space>
-          {isAdmin && (
-            <Tooltip title="Edit">
+  ];
+
+  const actionsColumn = {
+    title: "Actions",
+    key: "actions",
+    width: 90,
+    render: (_, record) => (
+      <Space>
+        {isAdmin && (
+          <Tooltip title="Edit">
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              size="small"
+              onClick={() => openEdit(record)}
+              style={{ color: "#4f6ef7" }}
+            />
+          </Tooltip>
+        )}
+        {isSuperAdmin && (
+          <Popconfirm
+            title="Delete User"
+            description={`Permanently delete ${record.email}?`}
+            okText="Delete"
+            okType="danger"
+            cancelText="Cancel"
+            onConfirm={() => handleDelete(record.id)}
+          >
+            <Tooltip title="Delete">
               <Button
                 type="text"
-                icon={<EditOutlined />}
+                icon={<DeleteOutlined />}
                 size="small"
-                onClick={() => openEdit(record)}
-                style={{ color: "#4f6ef7" }}
+                danger
               />
             </Tooltip>
-          )}
-          {isSuperAdmin && (
-            <Popconfirm
-              title="Delete User"
-              description={`Permanently delete ${record.email}?`}
-              okText="Delete"
-              okType="danger"
-              cancelText="Cancel"
-              onConfirm={() => handleDelete(record.id)}
-            >
-              <Tooltip title="Delete">
-                <Button
-                  type="text"
-                  icon={<DeleteOutlined />}
-                  size="small"
-                  danger
-                />
-              </Tooltip>
-            </Popconfirm>
-          )}
-        </Space>
-      ),
-    },
-  ];
+          </Popconfirm>
+        )}
+      </Space>
+    ),
+  };
+
+  // Only append the actions column if the logged-in user can actually do something
+  const columns = isAdmin ? [...baseColumns, actionsColumn] : baseColumns;
 
   return (
     <div className="users-page">

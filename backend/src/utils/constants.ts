@@ -4,7 +4,7 @@ export const ROLES = {
   SUPER_ADMIN: "SUPER_ADMIN",
   ADMIN: "ADMIN",
   USER: "USER",
-};
+} as const;
 
 export const ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || "12", 10);
 export const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET as string;

@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
 import { UserRole } from "../types/authRequest";
+import { ROLES } from "../utils/constants";
 
 export interface UserAttributes {
   id: number;
@@ -55,7 +56,7 @@ export function initUserModel(sequelize: Sequelize): typeof User {
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM("SUPER_ADMIN", "ADMIN", "USER"),
+        type: DataTypes.ENUM(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.USER),
         defaultValue: "USER",
         allowNull: false,
       },

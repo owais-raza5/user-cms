@@ -109,13 +109,13 @@ export default function UserModal({ open, mode, user, onClose, onSuccess }) {
           <Select disabled={!isSuperAdmin}>
             <Option value="USER">USER</Option>
             <Option value="ADMIN">ADMIN</Option>
-            <Option value="SUPER_ADMIN">SUPER_ADMIN</Option>
+            <Option value="SUPER_ADMIN">SUPER ADMIN</Option>
           </Select>
         </Form.Item>
 
         {!isSuperAdmin && (
           <Text type="secondary" style={{ fontSize: 12 }}>
-            ℹ️ Role assignment requires SUPER_ADMIN privileges.
+            ℹ️ Role assignment requires SUPER ADMIN privileges.
           </Text>
         )}
       </Form>
