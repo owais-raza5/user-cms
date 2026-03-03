@@ -3,7 +3,7 @@ import { store } from '../app/store'
 import { setTokens, clearAuth } from '../features/auth/authSlice'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000',
+  baseURL: import.meta.env.VITE_API_BASEURL || 'http://localhost:5000',
   headers: { 'Content-Type': 'application/json' },
 })
 
@@ -56,7 +56,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/auth/refresh`,
+          `${import.meta.env.VITE_API_BASEURL || 'http://localhost:5000'}/auth/refresh`,
           { refreshToken }
         )
         const newAccessToken = data.data.accessToken
