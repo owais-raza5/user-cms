@@ -8,7 +8,8 @@ import {
   verifyRefreshToken,
 } from "../utils/functions";
 import { AuthRequest, UserRole } from "../types/authRequest";
-
+import { sendPasswordResetEmail } from "../utils/email";
+import crypto from "crypto";
 
 export async function register(req: Request, res: Response): Promise<void> {
   try {
@@ -42,7 +43,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     const user = await User.create({
       email,
       password: hashed,
-      role: "USER", 
+      role: "USER",
       username: username || null,
     });
 
@@ -56,7 +57,6 @@ export async function register(req: Request, res: Response): Promise<void> {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
-
 
 export async function login(req: Request, res: Response): Promise<void> {
   try {
@@ -97,7 +97,6 @@ export async function login(req: Request, res: Response): Promise<void> {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
-
 
 export async function refresh(req: Request, res: Response): Promise<void> {
   try {
@@ -143,7 +142,6 @@ export async function refresh(req: Request, res: Response): Promise<void> {
   }
 }
 
-
 export async function logout(req: AuthRequest, res: Response): Promise<void> {
   try {
     if (req.user) {
@@ -155,7 +153,6 @@ export async function logout(req: AuthRequest, res: Response): Promise<void> {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
-
 
 export async function profile(req: AuthRequest, res: Response): Promise<void> {
   try {
@@ -174,4 +171,62 @@ export async function profile(req: AuthRequest, res: Response): Promise<void> {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
- 
+
+export async function forgotPassword(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      res.status(400).json({ success: false, message: "Email is required" });
+      return;
+    }
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      res.json({ success: true, message: "If that email exists, a reset link was sent" });
+      return;
+    }
+
+    const token = crypto.randomBytes(32).toString("hex");
+    const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    await user.update({ resetToken: token, resetTokenExpiry: expiry });
+    await sendPasswordResetEmail(email, token);
+
+    res.json({ success: true, message: "If that email exists, a reset link was sent" });
+  } catch (err) {
+    console.error("[forgotPassword]", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}
+
+export async function resetPassword(req: Request, res: Response) {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      res.status(400).json({ success: false, message: "Token and password are required" });
+      return;
+    }
+
+    const user = await User.findOne({ where: { resetToken: token } });
+
+    if (!user || !user.resetTokenExpiry || user.resetTokenExpiry < new Date()) {
+      res.status(400).json({ success: false, message: "Invalid or expired reset token" });
+      return;
+    }
+
+    const hashed = await hashPassword(password);
+
+    await user.update({
+      password: hashed,
+      resetToken: null,
+      resetTokenExpiry: null,
+    });
+
+    res.json({ success: true, message: "Password reset successfully" });
+  } catch (err) {
+    console.error("[resetPassword]", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}

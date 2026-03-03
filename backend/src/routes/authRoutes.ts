@@ -5,6 +5,8 @@ import {
   refresh,
   logout,
   profile,
+  forgotPassword,
+  resetPassword,
 } from '../controllers/authController'
 import { authenticate } from '../middleware/authenticate'
 
@@ -13,6 +15,8 @@ const router = Router()
 router.post('/register', register)
 router.post('/login', login)
 router.post('/refresh', refresh)
+router.post('/forgot-password', forgotPassword)
+router.post('/reset-password', resetPassword);
 
 router.post('/logout', authenticate, logout)
 router.get('/profile', authenticate, profile)

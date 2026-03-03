@@ -9,19 +9,23 @@ export interface UserAttributes {
   role: UserRole;
   username: string | null;
   refreshToken: string | null;
+  resetToken: string | null;
+  resetTokenExpiry: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export type UserCreationAttributes = Optional<
   UserAttributes,
-  "id" | "username" | "refreshToken" | "createdAt" | "updatedAt"
+  "id" | "username" | "refreshToken" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt"
 >;
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
+  declare resetToken: string | null;
+  declare resetTokenExpiry: Date | null;
   declare id: number;
   declare email: string;
   declare password: string;
@@ -67,6 +71,16 @@ export function initUserModel(sequelize: Sequelize): typeof User {
       },
       refreshToken: {
         type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: null,
+      },
+      resetToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null,
+      },
+      resetTokenExpiry: {
+        type: DataTypes.DATE,
         allowNull: true,
         defaultValue: null,
       },

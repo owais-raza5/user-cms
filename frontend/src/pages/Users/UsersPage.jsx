@@ -145,8 +145,7 @@ export default function UsersPage() {
       </Space>
     ),
   };
-
-  // Only append the actions column if the logged-in user can actually do something
+  
   const columns = isAdmin ? [...baseColumns, actionsColumn] : baseColumns;
 
   return (

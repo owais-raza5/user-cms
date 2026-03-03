@@ -101,6 +101,17 @@ export default function LoginPage() {
               />
             </Form.Item>
 
+            <div
+              style={{ textAlign: "right", marginBottom: 16, marginTop: -8 }}
+            >
+              <Link
+                to="/forgot-password"
+                style={{ color: "var(--color-accent)", fontSize: 13 }}
+              >
+                Forgot password?
+              </Link>
+            </div>
+
             <Form.Item style={{ marginBottom: 0 }}>
               <Button
                 type="primary"

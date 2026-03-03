@@ -8,6 +8,8 @@ import DashboardPage from './pages/Dashboard/DashboardPage'
 import UsersPage from './pages/Users/UsersPage'
 import ProfilePage from './pages/Profile/ProfilePage'
 import SettingsPage from './pages/Settings/SettingsPage'
+import ForgotPasswordPage from './pages/ForgotPassword/ForgotPassword'
+import ResetPasswordPage from './pages/ResetPassword/ResetPassword'
 
 function ProtectedRoute({ children }) {
   const { accessToken } = useSelector((state) => state.auth)
@@ -18,11 +20,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-        
         <Route
           path="/"
           element={
